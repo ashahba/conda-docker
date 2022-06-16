@@ -1,7 +1,7 @@
 ARG UBUNTU_VERSION=20.04
 FROM ubuntu:${UBUNTU_VERSION}
 
-ARG ANACONDA3_VER=2020.11-Linux-x86_64
+ARG ANACONDA3_VER=2022.05-Linux-x86_64
 ARG CONDA_ROOT=/opt/anaconda3
 
 RUN apt-get update -y && \
@@ -22,6 +22,8 @@ RUN ln -s ${CONDA_ROOT}/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     # Set always_yes for non-interactive shells.
     conda config --system --set always_yes True && \
     conda clean --all
+
+RUN conda update -n base -c defaults conda
 
 ARG PYTHON_VER=3.8
 RUN conda create -y --prefix ${CONDA_ROOT}/py${PYTHON_VER} python=${PYTHON_VER}
