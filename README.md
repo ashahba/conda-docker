@@ -21,8 +21,8 @@ docker run --rm -it ${CONDA}:ubuntu-${UBUNTU_VERSION}-py${PYTHON_VER} bash
 root@cc30dadfbbf6:/# conda env list
 # conda environments:
 #
-base                  *  /opt/miniconda
-py3.10                   /opt/miniconda/py3.10
+base                  *  /opt/conda
+py3.10                   /opt/conda/py3.10
 
 root@cc30dadfbbf6:/# conda activate py3.10
 (py3.10) root@cc30dadfbbf6:/# python --version
@@ -51,8 +51,8 @@ docker run --rm -it ${CONDA}:ubuntu-${UBUNTU_VERSION}-py${PYTHON_VER} bash
 root@cc30dadfbbf6:/# conda env list
 # conda environments:
 #
-base                  *  /opt/anaconda
-py3.10                   /opt/anaconda/py3.10
+base                  *  /opt/conda
+py3.10                   /opt/conda/py3.10
 
 root@cc30dadfbbf6:/# conda activate py3.10
 (py3.10) root@cc30dadfbbf6:/# python --version

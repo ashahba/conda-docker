@@ -17,10 +17,13 @@
 #
 
 ARG UBUNTU_VERSION=22.04
-FROM ubuntu:${UBUNTU_VERSION}
+FROM ubuntu:${UBUNTU_VERSION} as base
 
-ARG ANACONDA3_VER=2023.03-1-Linux-x86_64
-ARG CONDA_ROOT=/opt/anaconda
+
+FROM base as conda-base
+
+ARG CONDA_VER=2023.03-1-Linux-x86_64
+ARG CONDA_ROOT=/opt/conda
 ARG PYTHON_VER=3.10
 
 RUN apt-get update -y && \
@@ -28,11 +31,11 @@ RUN apt-get update -y && \
     ca-certificates \
     curl
 
-RUN curl https://repo.anaconda.com/archive/Anaconda3-${ANACONDA3_VER}.sh > /tmp/Anaconda.sh && \
-    cd /tmp && \
-    chmod +x Anaconda.sh && \
-    bash Anaconda.sh -b -p ${CONDA_ROOT} && \
-    rm Anaconda.sh && \
+RUN cd /tmp && \
+    curl https://repo.anaconda.com/archive/Anaconda3-${CONDA_VER}.sh > conda.sh && \
+    chmod +x conda.sh && \
+    bash conda.sh -b -p ${CONDA_ROOT} && \
+    rm conda.sh && \
     ${CONDA_ROOT}/bin/conda clean --all
 
 ENV PATH ${CONDA_ROOT}/bin:$PATH
@@ -48,3 +51,7 @@ RUN ln -s ${CONDA_ROOT}/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
 RUN conda create -y --prefix ${CONDA_ROOT}/py${PYTHON_VER} python=${PYTHON_VER} && \
     conda rename -p ${CONDA_ROOT}/py${PYTHON_VER} py${PYTHON_VER} && \
     conda clean --all
+
+FROM base as conda
+
+COPY --from=conda-base ${CONDA_ROOT} ${CONDA_ROOT}
