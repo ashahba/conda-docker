@@ -19,6 +19,7 @@
 ARG UBUNTU_VERSION=22.04
 FROM ubuntu:${UBUNTU_VERSION} as base
 
+
 FROM base as conda-base
 
 ARG CONDA_VER=latest-Linux-x86_64
@@ -37,21 +38,27 @@ RUN cd /tmp && \
     rm conda.sh && \
     ${CONDA_ROOT}/bin/conda clean --all
 
-ENV PATH ${CONDA_ROOT}/bin:$PATH
-
-# Source conda.sh for all login and interactive shells.
-RUN ln -s ${CONDA_ROOT}/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-    echo ". /etc/profile.d/conda.sh" >> ~/.bashrc && \
-    # Set always_yes for non-interactive shells.
-    conda config --system --set always_yes True && \
-    conda update -n base -c defaults conda && \
-    conda clean --all
+ENV PATH ${CONDA_ROOT}/bin:${PATH}
 
 RUN conda create -y --prefix ${CONDA_ROOT}/py${PYTHON_VER} python=${PYTHON_VER} && \
     conda rename -p ${CONDA_ROOT}/py${PYTHON_VER} py${PYTHON_VER} && \
     conda clean --all
 
+# Source conda.sh for all login and interactive shells.
+RUN conda update -n base -c defaults conda && \
+    conda clean --all
+
 
 FROM base as conda
 
+ARG CONDA_ROOT=/opt/conda
+
+ENV PATH ${CONDA_ROOT}/bin:${PATH}
+
 COPY --from=conda-base ${CONDA_ROOT} ${CONDA_ROOT}
+
+# Source conda.sh for all login and interactive shells.
+RUN ln -s ${CONDA_ROOT}/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+    echo ". /etc/profile.d/conda.sh" >> ~/.bashrc && \
+    # Set always_yes for non-interactive shells.
+    conda config --system --set always_yes True
