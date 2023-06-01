@@ -20,7 +20,7 @@ ARG UBUNTU_VERSION=22.04
 FROM ubuntu:${UBUNTU_VERSION}
 
 ARG ANACONDA3_VER=2023.03-1-Linux-x86_64
-ARG CONDA_ROOT=/opt/anaconda3
+ARG CONDA_ROOT=/opt/anaconda
 ARG PYTHON_VER=3.10
 
 RUN apt-get update -y && \
@@ -28,11 +28,11 @@ RUN apt-get update -y && \
     ca-certificates \
     curl
 
-RUN curl https://repo.anaconda.com/archive/Anaconda3-${ANACONDA3_VER}.sh > /tmp/Anaconda3.sh && \
+RUN curl https://repo.anaconda.com/archive/Anaconda3-${ANACONDA3_VER}.sh > /tmp/Anaconda.sh && \
     cd /tmp && \
-    chmod +x Anaconda3.sh && \
-    bash Anaconda3.sh -b -p ${CONDA_ROOT} && \
-    rm Anaconda3.sh && \
+    chmod +x Anaconda.sh && \
+    bash Anaconda.sh -b -p ${CONDA_ROOT} && \
+    rm Anaconda.sh && \
     ${CONDA_ROOT}/bin/conda clean --all
 
 ENV PATH ${CONDA_ROOT}/bin:$PATH

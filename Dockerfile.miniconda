@@ -20,7 +20,7 @@ ARG UBUNTU_VERSION=22.04
 FROM ubuntu:${UBUNTU_VERSION}
 
 ARG MINICONDA3_VER=latest-Linux-x86_64
-ARG CONDA_ROOT=/opt/miniconda3
+ARG CONDA_ROOT=/opt/miniconda
 ARG PYTHON_VER=3.10
 
 RUN apt-get update -y && \
@@ -28,11 +28,11 @@ RUN apt-get update -y && \
     ca-certificates \
     curl
 
-RUN curl https://repo.anaconda.com/miniconda/Miniconda3-${MINICONDA3_VER}.sh > /tmp/Miniconda3.sh && \
+RUN curl https://repo.anaconda.com/miniconda/Miniconda3-${MINICONDA3_VER}.sh > /tmp/Miniconda.sh && \
     cd /tmp && \
-    chmod +x Miniconda3.sh && \
-    bash Miniconda3.sh -b -p ${CONDA_ROOT} && \
-    rm Miniconda3.sh && \
+    chmod +x Miniconda.sh && \
+    bash Miniconda.sh -b -p ${CONDA_ROOT} && \
+    rm Miniconda.sh && \
     ${CONDA_ROOT}/bin/conda clean --all
 
 ENV PATH ${CONDA_ROOT}/bin:$PATH

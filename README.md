@@ -1,7 +1,7 @@
 # conda-docker
 A very simplistic Conda docker environment
 
-## To build Miniconda3 container
+## To build Miniconda container
 ```bash
 UBUNTU_VERSION=22.04
 PYTHON_VER=3.10
@@ -14,15 +14,15 @@ docker build \
   .
 ```
 
-## To run Miniconda3 it
+## To run Miniconda it
 ```
 docker run --rm -it ${CONDA}:ubuntu-${UBUNTU_VERSION}-py${PYTHON_VER} bash
 
 root@cc30dadfbbf6:/# conda env list
 # conda environments:
 #
-base                  *  /opt/miniconda3
-py3.10                   /opt/miniconda3/py3.10
+base                  *  /opt/miniconda
+py3.10                   /opt/miniconda/py3.10
 
 root@cc30dadfbbf6:/# conda activate py3.10
 (py3.10) root@cc30dadfbbf6:/# python --version
@@ -31,7 +31,7 @@ Python 3.10.11
 exit
 ```
 
-## To build Anaconda3 container
+## To build Anaconda container
 ```bash
 UBUNTU_VERSION=22.04
 PYTHON_VER=3.10
@@ -44,15 +44,15 @@ docker build \
   .
 ```
 
-## To run Anaconda3 it
+## To run Anaconda it
 ```
 docker run --rm -it ${CONDA}:ubuntu-${UBUNTU_VERSION}-py${PYTHON_VER} bash
 
 root@cc30dadfbbf6:/# conda env list
 # conda environments:
 #
-base                  *  /opt/anaconda3
-py3.10                   /opt/anaconda3/py3.10
+base                  *  /opt/anaconda
+py3.10                   /opt/anaconda/py3.10
 
 root@cc30dadfbbf6:/# conda activate py3.10
 (py3.10) root@cc30dadfbbf6:/# python --version
