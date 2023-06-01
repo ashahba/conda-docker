@@ -9,6 +9,7 @@ RUN apt-get update -y && \
     apt-get install -y --no-install-recommends --fix-missing \
     ca-certificates \
     curl
+
 RUN curl https://repo.anaconda.com/archive/Anaconda3-${ANACONDA3_VER}.sh > /tmp/Anaconda3.sh && \
     cd /tmp && \
     chmod +x Anaconda3.sh && \
@@ -23,9 +24,7 @@ RUN ln -s ${CONDA_ROOT}/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
     echo ". /etc/profile.d/conda.sh" >> ~/.bashrc && \
     # Set always_yes for non-interactive shells.
     conda config --system --set always_yes True && \
-    conda clean --all
-
-RUN conda update -n base -c defaults conda && \
+    conda update -n base -c defaults conda && \
     conda clean --all
 
 RUN conda create -y --prefix ${CONDA_ROOT}/py${PYTHON_VER} python=${PYTHON_VER} && \
