@@ -1,8 +1,9 @@
-ARG UBUNTU_VERSION=20.04
+ARG UBUNTU_VERSION=22.04
 FROM ubuntu:${UBUNTU_VERSION}
 
 ARG MINICONDA3_VER=latest-Linux-x86_64
 ARG CONDA_ROOT=/opt/miniconda3
+ARG PYTHON_VER=3.10
 
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends --fix-missing \
@@ -27,6 +28,6 @@ RUN ln -s ${CONDA_ROOT}/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
 RUN conda update -n base -c defaults conda && \
     conda clean --all
 
-ARG PYTHON_VER=3.8
 RUN conda create -y --prefix ${CONDA_ROOT}/py${PYTHON_VER} python=${PYTHON_VER} && \
+    conda rename -p ${CONDA_ROOT}/py${PYTHON_VER} py${PYTHON_VER} && \
     conda clean --all

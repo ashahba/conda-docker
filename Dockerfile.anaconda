@@ -1,14 +1,14 @@
-ARG UBUNTU_VERSION=20.04
+ARG UBUNTU_VERSION=22.04
 FROM ubuntu:${UBUNTU_VERSION}
 
-ARG ANACONDA3_VER=2022.05-Linux-x86_64
+ARG ANACONDA3_VER=2023.03-1-Linux-x86_64
 ARG CONDA_ROOT=/opt/anaconda3
+ARG PYTHON_VER=3.10
 
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends --fix-missing \
     ca-certificates \
     curl
-
 RUN curl https://repo.anaconda.com/archive/Anaconda3-${ANACONDA3_VER}.sh > /tmp/Anaconda3.sh && \
     cd /tmp && \
     chmod +x Anaconda3.sh && \
@@ -28,6 +28,6 @@ RUN ln -s ${CONDA_ROOT}/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
 RUN conda update -n base -c defaults conda && \
     conda clean --all
 
-ARG PYTHON_VER=3.8
 RUN conda create -y --prefix ${CONDA_ROOT}/py${PYTHON_VER} python=${PYTHON_VER} && \
+    conda rename -p ${CONDA_ROOT}/py${PYTHON_VER} py${PYTHON_VER} && \
     conda clean --all
